@@ -31,20 +31,18 @@ services:
       - 8080:8080
     command: ["start-dev", "--spi-theme-static-max-age=-1", "--spi-theme-cache-themes=false", "--spi-theme-cache-templates=false"]
     environment:
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: admin
       REGISTRY_GROUP_PREFIX: registry- #registry-
       REGISTRY_CATALOG_AUDIENCE: editor #user|editor
       REGISTRY_NAMESPACE_SCOPE: group,domain,sld,username #group|domain|sld|username
-      KC_LOG_LEVEL: debug #info|debug|trace
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      KC_LOG_LEVEL: info #info|debug|trace
       KC_LOG_CONSOLE_OUTPUT: default # json|default
       KC_LOG_FILE_OUTPUT: default # json|default
       KC_DB: mariadb
       KC_DB_URL: jdbc:mariadb://database:3306/keycloak
       KC_DB_USERNAME: keycloak
       KC_DB_PASSWORD: keycloak
-      KC_HOSTNAME: http://localhost:8080
-      KC_HOSTNAME_STRICT_HTTPS: "false"
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
