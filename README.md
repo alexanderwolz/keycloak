@@ -7,7 +7,7 @@
 
 ## 🧑‍💻 About
 
-This repository provides a customized Docker container of Keycloak integrating metrics spi and docker groups role mapper. See also [Keycloak Docker Group Role mapper](https://github.com/alexanderwolz/keycloak-docker-group-role-mapper) and [Keycloak Metrics SPI](https://github.com/aerogear/keycloak-metrics-spi) 
+This repository provides a customized Docker container of Keycloak integrating metrics spi and docker groups role mapper. See also [Keycloak Registry Mapper](https://github.com/alexanderwolz/keycloak-registry-mapper) and [Keycloak Metrics SPI](https://github.com/aerogear/keycloak-metrics-spi) 
 
 
 ## 🛠️ Build
