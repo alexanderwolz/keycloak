@@ -3,22 +3,23 @@ services:
   database:
     container_name: keycloak_database
     hostname: keycloak_database
-    image: mariadb:11.7.2
+    image: postgres:17.6-alpine3.22
     restart: unless-stopped
     ports:
-      - 3306:3306
+      - 15432:5432
     environment:
-      MARIADB_ROOT_PASSWORD: root
-      MARIADB_ROOT_HOST: localhost
-      MARIADB_DATABASE: keycloak
-      MARIADB_USER: keycloak
-      MARIADB_PASSWORD: keycloak
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: keycloak
     healthcheck:
-        test: ["CMD", "mariadb-admin", "-ukeycloak", "-pkeycloak", "ping"]
+      test: ["CMD-SHELL", "pg_isready -U keycloak -d keycloak && psql -U keycloak -d keycloak -c 'SELECT 1'"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
-      - database:/var/lib/mysql:rw
+      - database:/var/lib/postgresql/data:rw
     networks:
       - database
 
@@ -39,8 +40,7 @@ services:
       KC_LOG_LEVEL: info #info|debug|trace
       KC_LOG_CONSOLE_OUTPUT: default # json|default
       KC_LOG_FILE_OUTPUT: default # json|default
-      KC_DB: mariadb
-      KC_DB_URL: jdbc:mariadb://database:3306/keycloak
+      KC_DB_URL: jdbc:postgresql://database:5432/keycloak
       KC_DB_USERNAME: keycloak
       KC_DB_PASSWORD: keycloak
     volumes:
