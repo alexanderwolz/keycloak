@@ -19,7 +19,7 @@ RUN curl -LO https://github.com/aerogear/keycloak-metrics-spi/releases/download/
 FROM keycloak/keycloak:${KEYCLOAK_VERSION} AS builder
 LABEL maintainer="mail@alexanderwolz.de"
 
-ENV KC_FEATURES=docker
+ENV KC_FEATURES=docker,token-exchange
 ENV KC_DB=postgres
 
 COPY --from=downloader /downloads/ /opt/keycloak/providers/
