@@ -18,7 +18,7 @@ This repository provides a customized Docker container of Keycloak integrating m
 1. ```docker compose down -v && docker compose up -d```
 
 ## 🐳 Dockerhub
-1. ```docker pull alexanderwolz/keycloak:26.3.2```
+1. ```docker pull alexanderwolz/keycloak:26.5.0```
 
 
 
