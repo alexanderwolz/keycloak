@@ -20,6 +20,7 @@ FROM keycloak/keycloak:${KEYCLOAK_VERSION} AS builder
 LABEL maintainer="mail@alexanderwolz.de"
 
 ENV KC_FEATURES=docker,token-exchange
+ENV KC_HEALTH_ENABLED=true
 ENV KC_DB=mariadb
 
 COPY --from=downloader /downloads/ /opt/keycloak/providers/
@@ -31,18 +32,12 @@ FROM keycloak/keycloak:${KEYCLOAK_VERSION} AS runtime
 LABEL maintainer="mail@alexanderwolz.de"
 
 ENV KC_LOG_CONSOLE_OUTPUT=json
-ENV KC_HEALTH_ENABLED=true
 ENV KC_DB_URL=jdbc:mariadb://database:3306/keycloak
 
 COPY --from=builder /opt/keycloak/ /opt/keycloak/
 COPY themes /opt/keycloak/themes/
 
 WORKDIR /opt/keycloak
-
-HEALTHCHECK --interval=30s --timeout=5s --start-period=120s --retries=3 \
-  CMD bash -c 'exec 3<>/dev/tcp/127.0.0.1/9000 || exit 1; \
-               printf "GET /health/ready HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n" >&3; \
-               grep -q "200 OK" <&3'
 
 ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]
 CMD ["start", "--optimized"]
