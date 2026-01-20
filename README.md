@@ -1,7 +1,7 @@
 # Keycloak - Customized Docker container
 
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/alexanderwolz/keycloak)
-![GitHub](https://img.shields.io/badge/keycloak-26.2.0-orange)
+![GitHub](https://img.shields.io/badge/keycloak-26.5.1-orange)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/alexanderwolz/keycloak)
 ![GitHub all releases](https://img.shields.io/github/downloads/alexanderwolz/keycloak/total?color=informational)
 
@@ -18,7 +18,7 @@ This repository provides a customized Docker container of Keycloak integrating m
 1. ```docker compose down -v && docker compose up -d```
 
 ## 🐳 Dockerhub
-1. ```docker pull alexanderwolz/keycloak:26.5.0```
+1. ```docker pull alexanderwolz/keycloak:26.5.1```
 
 
 
