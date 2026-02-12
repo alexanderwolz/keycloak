@@ -1,4 +1,4 @@
-ARG KEYCLOAK_VERSION="26.5.2"
+ARG KEYCLOAK_VERSION="26.5.3"
 ARG METRICS_SPI_VERSION="7.0.0"
 ARG REGISTRY_MAPPER_VERSION="1.9.2"
 
@@ -21,7 +21,7 @@ LABEL maintainer="mail@alexanderwolz.de"
 
 ENV KC_FEATURES=docker,token-exchange
 ENV KC_HEALTH_ENABLED=true
-ENV KC_DB=mariadb
+ENV KC_DB=postgres
 
 COPY --from=downloader /downloads/ /opt/keycloak/providers/
 
@@ -32,7 +32,7 @@ FROM keycloak/keycloak:${KEYCLOAK_VERSION} AS runtime
 LABEL maintainer="mail@alexanderwolz.de"
 
 ENV KC_LOG_CONSOLE_OUTPUT=json
-ENV KC_DB_URL=jdbc:mariadb://database:3306/keycloak
+ENV KC_DB_URL=jdbc:postgresql://database:5432/keycloak
 
 COPY --from=builder /opt/keycloak/ /opt/keycloak/
 COPY themes /opt/keycloak/themes/
