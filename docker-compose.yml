@@ -3,7 +3,7 @@ services:
   database:
     container_name: keycloak_database
     hostname: keycloak_database
-    image: postgres:18.1-trixie
+    image: postgres:18.2-trixie
     restart: unless-stopped
     command: ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf"]
     ports:
@@ -30,7 +30,7 @@ services:
     hostname: keycloak
     build: ./build
     restart: unless-stopped
-    command: ["start-dev", "--spi-theme-static-max-age=-1", "--spi-theme-cache-themes=false", "--spi-theme-cache-templates=false"]
+    command: ["start", "--optimized", "--spi-theme-static-max-age=-1", "--spi-theme-cache-themes=false", "--spi-theme-cache-templates=false"]
     healthcheck:
       test: ["CMD-SHELL", "exec 3<>/dev/tcp/127.0.0.1/9000;echo -e 'GET /health/ready HTTP/1.1\r\nhost: http://localhost\r\nConnection: close\r\n\r\n' >&3;if [ $? -eq 0 ]; then echo 'Healthcheck Successful';exit 0;else echo 'Healthcheck Failed';exit 1;fi;"]
       start_period: 10s
@@ -38,7 +38,7 @@ services:
       retries: 3
       timeout: 5s
     ports:
-      - 8080:8080
+      - 8443:8443
     environment:
       REGISTRY_GROUP_PREFIX: registry- #registry-
       REGISTRY_CATALOG_AUDIENCE: editor #user|editor
@@ -52,9 +52,15 @@ services:
       KC_DB_URL: jdbc:postgresql://database:5432/keycloak
       KC_DB_USERNAME: keycloak
       KC_DB_PASSWORD: keycloak
+      KC_HTTP_ENABLED: "false" #newer versions wont work in http anymore
+      KC_HOSTNAME: localhost
+      KC_HOSTNAME_STRICT: "false"
+      KC_HTTPS_KEY_STORE_FILE: /opt/keycloak/conf/keystore.p12
+      KC_HTTPS_KEY_STORE_PASSWORD: changeit
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
+      - ./certs/keystore.p12:/opt/keycloak/conf/keystore.p12:ro
     depends_on:
         - database
     networks:
