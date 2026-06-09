@@ -1,4 +1,4 @@
-ARG KEYCLOAK_VERSION="26.6.2"
+ARG KEYCLOAK_VERSION="26.6.3"
 ARG METRICS_SPI_VERSION="7.0.0"
 ARG REGISTRY_MAPPER_VERSION="1.10.0"
 
@@ -26,12 +26,11 @@ ARG METRICS_SPI_VERSION
 ARG REGISTRY_MAPPER_VERSION
 
 ENV KC_HEALTH_ENABLED=true
-ENV KC_TRACING_ENABLED=true
 ENV KC_DB=postgres
 
 COPY --from=downloader /downloads/ /opt/keycloak/providers/
 
-RUN /opt/keycloak/bin/kc.sh build --features=docker,opentelemetry
+RUN /opt/keycloak/bin/kc.sh build --features=docker
 
 # stage 3: runtime
 FROM keycloak/keycloak:${KEYCLOAK_VERSION} AS runtime
