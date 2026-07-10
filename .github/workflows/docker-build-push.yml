@@ -1,9 +1,8 @@
 name: Build and Push Docker Image
 
 on:
-  push:
-    tags:
-      - "v*"
+  release:
+    types: [published]
 
 jobs:
   build-and-push:
@@ -25,12 +24,13 @@ jobs:
           fi
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
-      - name: Verify tag matches Dockerfile version
+      - name: Verify release tag matches Dockerfile version
         run: |
-          TAG_VERSION="${GITHUB_REF_NAME#v}"
+          TAG_NAME="${{ github.event.release.tag_name }}"
+          TAG_VERSION="${TAG_NAME#v}"
           DOCKERFILE_VERSION="${{ steps.dockerfile-version.outputs.version }}"
           if [ "$TAG_VERSION" != "$DOCKERFILE_VERSION" ]; then
-            echo "[ERROR] Git tag ($GITHUB_REF_NAME) does not match ARG KEYCLOAK_VERSION in build/Dockerfile ($DOCKERFILE_VERSION)"
+            echo "[ERROR] Release tag ($TAG_NAME) does not match ARG KEYCLOAK_VERSION in build/Dockerfile ($DOCKERFILE_VERSION)"
             exit 1
           fi
 
