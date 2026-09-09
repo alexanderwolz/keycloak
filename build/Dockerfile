@@ -1,11 +1,11 @@
-ARG KEYCLOAK_VERSION="26.7.0"
+ARG KEYCLOAK_VERSION="26.7.3"
 ARG METRICS_SPI_VERSION="7.0.0"
 ARG REGISTRY_MAPPER_VERSION="1.10.0"
 ARG ENABLE_OTEL=false
 
 
 # stage 1: downloads
-FROM alpine:3.23.3 AS downloader
+FROM alexanderwolz/toolbox:3.24.1 AS downloader
 LABEL maintainer="mail@alexanderwolz.de"
 ARG KEYCLOAK_VERSION
 ARG METRICS_SPI_VERSION
