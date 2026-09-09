@@ -11,8 +11,6 @@ ARG KEYCLOAK_VERSION
 ARG METRICS_SPI_VERSION
 ARG REGISTRY_MAPPER_VERSION
 
-RUN apk add --no-cache curl
-
 WORKDIR /downloads
 
 RUN curl -LO https://repo1.maven.org/maven2/de/alexanderwolz/keycloak-registry-mapper/${REGISTRY_MAPPER_VERSION}/keycloak-registry-mapper-${REGISTRY_MAPPER_VERSION}.jar || exit 1
