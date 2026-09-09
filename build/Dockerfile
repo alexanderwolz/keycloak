@@ -5,7 +5,7 @@ ARG ENABLE_OTEL=false
 
 
 # stage 1: downloads
-FROM alpine:3.23.3 AS downloader
+FROM alexanderwolz/toolbox:3.24.1 AS downloader
 LABEL maintainer="mail@alexanderwolz.de"
 ARG KEYCLOAK_VERSION
 ARG METRICS_SPI_VERSION
